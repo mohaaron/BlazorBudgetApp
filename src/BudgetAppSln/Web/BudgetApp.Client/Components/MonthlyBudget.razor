@@ -1,0 +1,87 @@
+﻿
+<h3>Budget for month @title</h3>
+
+<div class="container row-cell-bg">
+  <div class="row">
+    <div class="col-auto"><button class="form-control" @onclick="(() => AddExpenseAsync())">Add Expense</button></div>
+    <div class="col-auto"><button class="form-control" @onclick="(() => DeleteExpenseAsync())">Delete Expense</button></div>
+  </div>
+  <div class="row">
+    <div class="col-auto"><input type="checkbox" disabled="disabled"/></div>
+    <div class="col-3"><b>Expense</b></div>
+    <div class="col-1"><b>Cost</b></div>
+    <div class="col-2"><b>Due Date</b></div>
+    <div class="col"><b>Notes</b></div>
+  </div>
+
+    @foreach (var paycheck in Budget.Incomes)
+  {
+      <div class="row">
+          <div class="col-auto"><a href="javascript:void(0)" @onclick="(() => EditIncomeAsync(paycheck))">@paycheck.Source</a>: @paycheck.PayDate?.ToString("MM/dd/yyyy")</div>
+          <div class="col-auto">Amount: @paycheck.Amount.ToString("C")</div>
+          <div class="col-auto">Expenses: @paycheck.GetTotalExpenses.ToString("C")</div>
+          <div class="col">Available: @paycheck.GetTotalAvailable.ToString("C")</div>
+      </div>
+        @foreach(var expense in paycheck.Expenses)
+        {
+          <div class="row">
+            <div class="col-auto"><input type="checkbox" id="delete-@expense.Id" @onchange="(e) => ExpenseCheckChanged(e, expense.Id)" /></div>
+            <div class="col-3"><a href="javascript:void(0)" @onclick="(() => EditExpenseAsync(expense))">@expense.ExpenseName</a></div>
+            <div class="col-1">@expense.Cost.ToString("C")</div>
+            <div class="col-2">@expense.DueDate?.ToString("MM/dd/yyyy")</div>
+            <div class="col">@expense.Notes</div>
+          </div>
+        }
+       <div class="row">
+          <div class="col">&nbsp;</div>
+        </div>
+  }
+
+  <div class="row">
+      <div class="col">Unassigned</div>
+  </div>
+
+  @foreach (var expense in Budget.Expenses.Where(e => e.Income == null))
+  {
+    <div class="row">
+      <div class="col-auto"><input type="checkbox" id="delete-@expense.Id" @onchange="(e) => ExpenseCheckChanged(e, expense.Id)" /></div>
+      <div class="col-3"><a href="javascript:void(0)" @onclick="(() => EditExpenseAsync(expense))">@expense.ExpenseName</a></div>
+      <div class="col-1">@expense.Cost.ToString("C")</div>
+      <div class="col-2">@expense.DueDate</div>
+      <div class="col">@expense.Notes</div>
+    </div>
+  }
+
+  <div class="row">
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-3"><b>Expenses</b></div>
+    <div class="col-2"><b>@Budget.GetTotalExpenses.ToString("C")</b></div>
+    <div class="col-2"></div>
+    <div class="col"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">Paycheck(s)</div>
+    <div class="col-2">@Budget.GetTotalIncome.ToString("C")</div>
+    <div class="col-2">&nbsp;</div>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">Savings</div>
+    <div class="col-2">$000.00</div>
+    <div class="col-2">&nbsp;</div>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col-3">Left Over</div>
+    <div class="col-2">@Budget.GetTotalAvailable.ToString("C")</div>
+    <div class="col-2">&nbsp;</div>
+    <div class="col">&nbsp;</div>
+  </div>
+</div>
+

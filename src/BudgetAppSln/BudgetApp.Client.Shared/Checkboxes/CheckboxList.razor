@@ -1,0 +1,32 @@
+﻿<input type="checkbox" @onclick="SelectAll" /> Select All
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private List<CheckboxItem> _items = new();
+
+    protected override void OnInitialized()
+    {
+        // _items is empty here
+    }
+
+    public void AddCheckbox(CheckboxItem checbox)
+    {
+        this._items.Add(checbox);
+    }
+
+    public void SelectAll()
+    {
+        foreach(var checkbox in _items)
+        {
+            // Warning(active)    BL0005 Component parameter 'IsChecked' should not be set outside of its component.
+            // checkbox.IsChecked = !checkbox.IsChecked;
+            checkbox.SetChecked(!checkbox.IsChecked);
+        }
+    }
+}

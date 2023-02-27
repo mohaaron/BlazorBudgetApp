@@ -1,0 +1,15 @@
+﻿.row-cell-bg .row > .col, .row-cell-bg .row > [class^="col-"] {
+  background-color: rgba(39,41,43,0.03);
+  border: 1px solid rgba(39,41,43,0.1);
+}
+
+span:hover {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+span {
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #555;
+}

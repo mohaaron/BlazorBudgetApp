@@ -1,0 +1,16 @@
+﻿<p>@Message</p>
+
+<button class="form-control" @onclick="Close">OK</button>
+
+@code {
+    [Parameter]
+    public string Message { get; set; }
+
+    [CascadingParameter]
+    BlazoredModalInstance Modal { get; set; }
+
+    private void Close()
+    {
+        Modal.CloseAsync(ModalResult.Ok(true));
+    }
+}

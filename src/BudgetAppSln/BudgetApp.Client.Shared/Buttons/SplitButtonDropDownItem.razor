@@ -1,0 +1,47 @@
+﻿<button class="dropdown-item" @onclick="SelectionChanged">@Text</button>
+
+@code {
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public Func<Task> ItemSelected { get; set; }
+
+    [Parameter]
+    public SplitButtonDropDownItem SelectedItem { get; set; }
+
+    [Parameter]
+    public EventCallback<SplitButtonDropDownItem> SelectedItemChanged { get; set; }
+
+    [CascadingParameter]
+    public SplitButton SplitButton { get; set; }
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        return base.SetParametersAsync(parameters);
+    }
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("SplitButtonDropDownItem.OnInitialized");
+        SplitButton.AddItem(this);
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("SplitButtonDropDownItem.OnParametersSet");
+    }
+
+    private Task SelectionChanged()
+    {
+        Console.WriteLine("SplitButtonDropDownItem.SelectionChanged");
+        SplitButton.SetSelectedItem(this);
+        ItemSelected.Invoke();
+        return Task.CompletedTask;
+    }
+
+    public override string ToString()
+    {
+        return $"{this.GetType().Name}.Text:{Text}";
+    }
+}

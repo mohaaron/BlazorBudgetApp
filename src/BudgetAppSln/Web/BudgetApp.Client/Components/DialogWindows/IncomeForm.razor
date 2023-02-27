@@ -1,0 +1,32 @@
+﻿
+<EditForm Model="validate" OnValidSubmit="@Save">
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+
+  <div class="container">
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Source</label>
+      </div>
+      <div class="col-auto"><InputText @bind-Value="validate.Source" /></div>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Amount</label>
+      </div>
+      <div class="col-auto"><InputNumber @bind-Value="validate.Amount" /></div>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Due Date</label>
+      </div>
+      <div class="col-auto"><InputDate @bind-Value="validate.PayDate" /></div>
+    </div>
+    <div class="row">
+        <div class="col-auto"><button class="form-control">Save</button></div>
+        <div class="col-auto"><button class="form-control" @onclick="Cancel">Cancel</button></div>
+    </div>
+  </div>
+</EditForm>
+
+

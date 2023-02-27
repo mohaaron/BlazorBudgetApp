@@ -1,0 +1,53 @@
+﻿@inherits BudgetApp.Client.Components.BudgetComponentBase
+
+<EditForm Model="validateExpense" OnValidSubmit="@Save">
+  <DataAnnotationsValidator />
+  <ValidationSummary />
+
+  <div class="container">
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Paycheck id: @paycheckId</label>
+      </div>
+      <div class="col-auto">
+          <InputSelect @bind-Value="paycheckId">
+              <option value="0">Remove</option>
+              @foreach(Income paycheck in Paychecks)
+              {
+                <option value="@paycheck.Id">@paycheck.PayDate?.ToString("MM/dd/yyyy")</option>
+              }
+          </InputSelect>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Name</label>
+      </div>
+      <div class="col-auto"><InputText @bind-Value="validateExpense.ExpenseName" /></div>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Cost</label>
+      </div>
+      <div class="col-auto"><InputNumber @bind-Value="validateExpense.Cost" /></div>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Due Date</label>
+      </div>
+      <div class="col-auto"><InputDate @bind-Value="validateExpense.DueDate" /></div>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <label class="col-form-label">Notes</label>
+      </div>
+      <div class="col-auto"><InputText @bind-Value="validateExpense.Notes" /></div>
+    </div>
+    <div class="row">
+        <div class="col-auto"><button class="form-control">Save</button></div>
+        <div class="col-auto"><button class="form-control" @onclick="Cancel">Cancel</button></div>
+    </div>
+  </div>
+</EditForm>
+
+

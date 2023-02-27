@@ -1,0 +1,13 @@
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@TopToolbarState.Value.Title
+
+@code {
+    [Inject]
+    private IState<TopToolbarState> TopToolbarState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

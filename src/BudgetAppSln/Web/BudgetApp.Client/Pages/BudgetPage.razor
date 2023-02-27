@@ -1,0 +1,28 @@
+﻿@page "/budget"
+
+@if (budget is null)
+{
+        <div><p>Loading...</p></div>
+}
+else
+{
+        <MonthlyBudget Budget="budget"/>
+}
+
+@code {
+    [Inject]
+    private IHttpClientRepository<Budget> repository { get; set; }
+
+    private Budget budget;
+
+    protected override void OnInitialized()
+    {
+        //
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        int id = 20216;
+        budget = await repository.Get(id);
+    }
+}

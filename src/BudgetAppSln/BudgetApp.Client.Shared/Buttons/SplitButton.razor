@@ -1,0 +1,73 @@
+﻿@inherits ComponentBase
+
+<CascadingValue Value="this" IsFixed="true">
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary" @onclick="_defaultClick">@_defaultText</button>
+        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+            @ChildContent
+        </div>
+    </div>
+</CascadingValue>
+
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public SplitButtonDropDownItem SelectedItem { get; set; }
+
+    [Parameter]
+    public string SplitButtonId { get; set; }
+
+    private List<SplitButtonDropDownItem> _items = new();
+
+    private SplitButtonDropDownItem _selectedItem;
+
+    private Func<Task> _defaultClick { get; set; }
+
+    private string _defaultText = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("SplitButton.OnInitialized");
+        // _items don't exist yet
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("SplitButton.OnParametersSet");
+        // Why does this execute when the defaultClick event fires?
+
+        // _items don't exist yet
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($"SplitButton.OnAfterRender(firstRender:{firstRender})");
+
+        if (_items.Count > 0 && firstRender)
+        {
+            _selectedItem = _items.First();
+            SetSelectedItem(_selectedItem);
+        }
+    }
+
+    public void AddItem(SplitButtonDropDownItem item)
+    {
+        Console.WriteLine($"SplitButton.AddItem({item})");
+        _items.Add(item);
+    }
+
+    public void SetSelectedItem(SplitButtonDropDownItem selectedItem)
+    {
+        Console.WriteLine($"SplitButton.SetSelectedItem({selectedItem})");
+        _selectedItem = selectedItem;
+        _defaultText = _selectedItem.Text;
+        _defaultClick = _selectedItem.ItemSelected;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,41 @@
+﻿@inherits ComponentBase
+
+<div class="btn-group">
+    <button type="button" class="btn btn-primary" @onclick="_selectedItem.OnItemSelected">@_selectedItem.Text</button>
+    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu">
+        @foreach(var item in Items)
+        {
+            <ButtonDropDownItem @bind-SelectedItem="_selectedItem" OnItemSelected="item.OnItemSelected" Text="@item.Text" />
+        }
+    </div>
+</div>
+
+@code {
+    private ButtonDropDownItem _selectedItem;
+
+    [Parameter]
+    public List<ButtonDropDownItem> Items { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("SplitButton.OnInitialized");
+
+        if (Items.Count > 0 && _selectedItem == null)
+        {
+            _selectedItem = Items.First();
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("SplitButton.OnParametersSet");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($"SplitButton.OnAfterRender(firstRender:{firstRender})");
+    }
+}

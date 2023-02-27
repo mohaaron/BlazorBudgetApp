@@ -1,0 +1,46 @@
+﻿@page "/demo/splitbutton"
+@using BudgetApp.Client.Components.DialogWindows
+
+<h3>SplitButton Demo</h3>
+
+@for (int i = 1; i <= 10; i++)
+{
+    <SplitButton @key="i" SplitButtonId="i">
+        <SplitButtonDropDownItem Text="Item 1" ItemSelected="Item1Selected" />
+        <SplitButtonDropDownItem Text="Item 2" ItemSelected="Item2Selected" />
+        <SplitButtonDropDownItem Text="Item 3" ItemSelected="Item3Selected" />
+    </SplitButton>
+    <br/>
+}
+
+
+@code {
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
+    private Task Item1Selected()
+    {
+        var modalParameters = new ModalParameters();
+        modalParameters.Add("Message", "Executed Item 1");
+        IModalReference modal = Modal.Show<Informational>("Information", modalParameters);
+        var modalResult = modal.Result;
+
+        return Task.CompletedTask;
+    }
+
+    private Task Item2Selected()
+    {
+        var modalParameters = new ModalParameters();
+        modalParameters.Add("Message", "Executed Item 2");
+        IModalReference modal = Modal.Show<Informational>("Information", modalParameters);
+        return Task.CompletedTask;
+    }
+
+    private Task Item3Selected()
+    {
+        var modalParameters = new ModalParameters();
+        modalParameters.Add("Message", "Executed Item 3");
+        IModalReference modal = Modal.Show<Informational>("Item 3 Executed", modalParameters);
+        return Task.CompletedTask;
+    }
+}

@@ -1,0 +1,30 @@
+﻿
+<div><input type="checkbox" @bind="isChecked" /> @DisplayName</div>
+
+@code {
+    [CascadingParameter]
+    public CheckboxList CheckboxList { get; set; }
+
+    [Parameter]
+    public string DisplayName { get; set; }
+
+    [Parameter]
+    public bool IsChecked { get; set; }
+
+    private bool isChecked = false;
+
+    protected override void OnInitialized()
+    {
+        CheckboxList.AddCheckbox(this);
+    }
+
+    protected override void OnParametersSet()
+    {
+        isChecked = IsChecked;
+    }
+
+    public void SetChecked(bool isChecked)
+    {
+        IsChecked = isChecked;
+    }
+}
